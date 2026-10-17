@@ -21,7 +21,7 @@ The project websites are separate repositories and are not affected:
 https://patevan9.github.io/. Its source and notes live in
 `Patevan9/scout-ai-research` → `lippy-labs-website/`.
 
-**Rollback:** the tag `before-labs-site` marks the site exactly as it was before
+**Rollback:** the branch `backup-before-labs-site` keeps the site exactly as it was before
 the homepage was added. To undo, revert the homepage commit
 (`git revert <commit>`) — that removes only `index.html` and `assets/` and leaves
 `app-ads.txt` untouched.
