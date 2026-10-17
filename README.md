@@ -14,3 +14,14 @@ The project websites are separate repositories and are not affected:
 - Lippy Robotics Labs: https://patevan9.github.io/lippyrobotics.github.io/
 
 `.nojekyll` tells GitHub Pages to publish the files exactly as they are.
+
+## Lippy Robotics Labs homepage
+
+`index.html` and `assets/` are the Lippy Robotics Labs homepage, served at
+https://patevan9.github.io/. Its source and notes live in
+`Patevan9/scout-ai-research` → `lippy-labs-website/`.
+
+**Rollback:** the tag `before-labs-site` marks the site exactly as it was before
+the homepage was added. To undo, revert the homepage commit
+(`git revert <commit>`) — that removes only `index.html` and `assets/` and leaves
+`app-ads.txt` untouched.
