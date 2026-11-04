@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" class="gate-locked">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08080a">
+<meta name="robots" content="noindex">
+<title>CAPTRAZE</title>
+<meta name="description" content="CAPTRAZE: Drive. Capture. Conquer. A future multiplayer vehicle-combat and territory-control game concept from Lippy Robotics Labs. For adults 18+.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon points='32,2 60,18 60,46 32,62 4,46 4,18' fill='%23111' stroke='%23e3131b' stroke-width='4'/%3E%3Ctext x='32' y='44' font-family='Arial Black,Arial' font-weight='900' font-size='32' text-anchor='middle' fill='%23e3131b'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Teko:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #08080a; --bg2: #0f1013; --plate: #15171b; --plate2: #1c1f24;
+    --steel: #8c939d; --line: rgba(255,255,255,0.09);
+    --text: #f2f2f2; --muted: #b9bec6;
+    --red: #e3131b; --red2: #ff3b3b; --blue: #1f8bff; --blue2: #5fb0ff; --gold: #f5b301;
+    --max: 1200px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Barlow', system-ui, sans-serif; font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .skip { position: absolute; left: -999px; top: 8px; z-index: 300; background: var(--gold); color: #000; padding: 10px 16px; font-weight: 700; }
+  .skip:focus { left: 16px; }
+
+  h1, h2, h3, .logo { font-family: 'Russo One', 'Arial Black', sans-serif; font-weight: 400; letter-spacing: 0.02em; line-height: 1.05; text-transform: uppercase; }
+  .tag { font-family: 'Teko', sans-serif; font-weight: 600; font-size: 1.25rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red2); line-height: 1; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .tag::before { content: ""; width: 26px; height: 3px; background: currentColor; }
+  .logo { color: #fff; }
+  .logo b { color: var(--red); font-weight: 400; }
+
+  /* metal plates with clipped corners */
+  .plate { position: relative; background: linear-gradient(180deg, var(--plate2), var(--plate)); border: 1px solid var(--line);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); }
+  .plate::before, .plate::after { content: ""; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #3a3f47; box-shadow: inset 0 1px 1px rgba(255,255,255,0.25); }
+  .plate::before { top: 10px; right: 10px; } .plate::after { bottom: 10px; left: 10px; }
+  .hazard { height: 10px; background: repeating-linear-gradient(-45deg, var(--gold) 0 14px, #111 14px 28px); opacity: 0.9; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; font-family: 'Teko', sans-serif; font-weight: 600; font-size: 1.45rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 0; cursor: pointer;
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%); transition: transform .15s ease, filter .15s ease; }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.12); }
+  .btn-red { background: linear-gradient(180deg, var(--red2), var(--red) 60%, #a80d13); color: #fff; }
+  .btn-steel { background: linear-gradient(180deg, #3a3f47, #23262c); color: #fff; }
+
+  .concept { position: absolute; top: 12px; left: 12px; z-index: 2; font-family: 'Teko', sans-serif; font-weight: 600; letter-spacing: 0.14em; font-size: 1.05rem; text-transform: uppercase; background: rgba(0,0,0,0.78); color: var(--gold); border: 1px solid rgba(245,179,1,0.6); padding: 2px 10px 0; line-height: 1.4; }
+
+  /* ===================== AGE GATE ===================== */
+  .gate { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
+    background: radial-gradient(800px 500px at 50% 40%, rgba(227,19,27,0.25), transparent 70%), linear-gradient(rgba(5,5,7,0.86), rgba(5,5,7,0.95)), url('assets/territory-warfare-800.webp') center / cover; }
+  html:not(.gate-locked) .gate { display: none; }
+  html.gate-locked body > *:not(.gate):not(noscript) { visibility: hidden; }
+  html.gate-locked body { overflow: hidden; }
+  .gate-box { width: 100%; max-width: 520px; padding: 34px 30px 30px; text-align: center; margin: auto; }
+  .gate-box .logo { font-size: clamp(2.6rem, 11vw, 3.6rem); margin-bottom: 4px; }
+  .gate-box .motto { font-family: 'Teko', sans-serif; font-size: 1.5rem; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 22px; }
+  .gate-badge { display: inline-block; font-family: 'Russo One', sans-serif; font-size: 2.2rem; color: #fff; background: var(--red); padding: 6px 16px 4px; margin-bottom: 16px; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+  .gate-box h2 { font-size: 1.35rem; margin-bottom: 8px; }
+  .gate-box p { color: var(--muted); font-size: 1.02rem; margin-bottom: 20px; }
+  .dob { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 10px; margin-bottom: 18px; text-align: left; }
+  .dob label { display: block; font-family: 'Teko', sans-serif; font-size: 1.15rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--steel); margin-bottom: 2px; }
+  .dob select { width: 100%; min-height: 52px; padding: 0 12px; font: 600 1.05rem 'Barlow', sans-serif; color: #fff; background: #0c0d10; border: 1px solid #3a3f47; border-radius: 0; appearance: none; -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--red2) 50%), linear-gradient(-45deg, transparent 50%, var(--red2) 50%); background-position: calc(100% - 18px) 23px, calc(100% - 12px) 23px; background-size: 6px 6px; background-repeat: no-repeat; }
+  .dob select:focus { border-color: var(--red2); }
+  .gate .btn { width: 100%; }
+  .gate-msg { min-height: 1.6em; margin-top: 14px; font-weight: 600; }
+  .gate-msg.err { color: #ff8a8a; }
+  .gate-denied { display: none; }
+  .gate.denied .gate-form { display: none; }
+  .gate.denied .gate-denied { display: block; }
+  .gate-denied h2 { color: var(--red2); font-size: 1.8rem; margin-bottom: 10px; }
+  .gate-fine { font-size: 0.86rem !important; color: #8f959e !important; margin: 18px 0 0 !important; }
+
+  /* ===================== HEADER ===================== */
+  header { position: sticky; top: 0; z-index: 100; background: rgba(8,8,10,0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: linear-gradient(90deg, var(--red) 0 33%, #333 33% 67%, var(--blue) 67%); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 16px; }
+  .nav .logo { font-size: 1.7rem; text-decoration: none; }
+  .nav ul { display: flex; list-style: none; gap: 2px; }
+  .nav ul a { display: block; padding: 10px 12px; text-decoration: none; font-family: 'Teko', sans-serif; font-weight: 600; font-size: 1.35rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .nav ul a:hover { color: #fff; }
+  .menu-btn { display: none; width: 48px; height: 48px; background: #1c1f24; color: #fff; border: 1px solid #3a3f47; font-size: 1.4rem; cursor: pointer; }
+
+  /* ===================== HERO ===================== */
+  .hero { position: relative; min-height: calc(100vh - 70px); display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; padding: 120px 0 70px; }
+  .hero-bg { position: absolute; inset: 0; z-index: -3; background: url('assets/vehicle-combat.webp') center bottom / cover no-repeat; transform: scale(1.6); transform-origin: 50% 100%; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background: linear-gradient(180deg, rgba(8,8,10,0.55) 0%, rgba(8,8,10,0.35) 35%, rgba(8,8,10,0.92) 78%, var(--bg) 100%); }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 4px); pointer-events: none; }
+  .beams { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .beam { position: absolute; bottom: 30%; width: 6px; height: 140%; transform-origin: bottom; filter: blur(1px); animation: pulse 3.4s ease-in-out infinite; }
+  .beam::after { content: ""; position: absolute; inset: 0 -14px; filter: blur(18px); background: inherit; opacity: 0.6; }
+  .beam.r { left: 12%; background: linear-gradient(0deg, var(--red2), rgba(227,19,27,0)); }
+  .beam.g { left: 50%; background: linear-gradient(0deg, var(--gold), rgba(245,179,1,0)); animation-delay: -1.2s; }
+  .beam.b { right: 12%; background: linear-gradient(0deg, var(--blue2), rgba(31,139,255,0)); animation-delay: -2.2s; }
+  @keyframes pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+  .hero .concept { top: 18px; left: 18px; }
+  .hero h1 { font-size: clamp(3.4rem, 12vw, 9rem); text-shadow: 0 6px 0 #000, 0 0 40px rgba(227,19,27,0.35); margin-bottom: 6px; }
+  .hero h1 b { color: var(--red); font-weight: 400; }
+  .motto-big { font-family: 'Teko', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 4.4vw, 3rem); letter-spacing: 0.22em; line-height: 1; margin-bottom: 22px; }
+  .motto-big span:nth-child(1) { color: var(--red2); } .motto-big span:nth-child(2) { color: var(--gold); } .motto-big span:nth-child(3) { color: var(--blue2); }
+  .hero p.lead { font-size: 1.22rem; color: #dfe2e6; max-width: 46ch; margin-bottom: 28px; }
+  .status { display: inline-flex; align-items: center; gap: 10px; font-family: 'Teko', sans-serif; font-weight: 600; font-size: 1.25rem; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(0,0,0,0.6); border-left: 4px solid var(--gold); padding: 4px 14px 2px; margin-bottom: 22px; color: var(--gold); }
+  .status::before { content: ""; width: 9px; height: 9px; background: var(--gold); border-radius: 50%; animation: pulse 1.6s infinite; }
+  .btns { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  section { padding: 100px 0; position: relative; }
+  section[id] { scroll-margin-top: 70px; }
+  .sec-head { max-width: 760px; margin-bottom: 44px; }
+  .sec-head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-bottom: 14px; }
+  .sec-head p { color: var(--muted); font-size: 1.12rem; }
+  .proposed { display: inline-block; font-family: 'Teko', sans-serif; font-weight: 600; font-size: 1.05rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(245,179,1,0.5); padding: 1px 8px 0; margin-left: 8px; vertical-align: middle; line-height: 1.4; }
+
+  /* pillars */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pillar { padding: 30px 26px; }
+  .pillar .num { font-family: 'Russo One', sans-serif; font-size: 3.4rem; line-height: 1; opacity: 0.16; position: absolute; top: 14px; right: 22px; }
+  .pillar h3 { font-size: 1.9rem; margin-bottom: 10px; }
+  .pillar p { color: var(--muted); }
+  .pillar.p1 { border-top: 4px solid var(--red); } .pillar.p1 h3 { color: var(--red2); }
+  .pillar.p2 { border-top: 4px solid var(--gold); } .pillar.p2 h3 { color: var(--gold); }
+  .pillar.p3 { border-top: 4px solid var(--blue); } .pillar.p3 h3 { color: var(--blue2); }
+
+  /* split feature */
+  .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .split.rev { grid-template-columns: 0.9fr 1.1fr; }
+  .split.rev .art { order: 2; }
+  .art { position: relative; border: 1px solid #2a2e35; box-shadow: 0 30px 70px rgba(0,0,0,0.6); }
+  .art img { width: 100%; }
+  .art figcaption { font-size: 0.9rem; color: #8f959e; padding: 10px 12px; background: #0c0d10; border-top: 1px solid #2a2e35; }
+  .list { list-style: none; display: grid; gap: 12px; margin: 20px 0; }
+  .list li { padding-left: 30px; position: relative; color: #dfe2e6; }
+  .list li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 14px; height: 14px; background: var(--red); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .list li b { color: #fff; }
+
+  /* grid schematic */
+  .conquest { background: linear-gradient(180deg, var(--bg), #0c0b10 50%, var(--bg)); }
+  .chain { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin: 34px 0 10px; padding: 26px 18px; }
+  .node { flex: none; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: 'Teko', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 1.15rem; color: var(--muted); text-align: center; line-height: 1; }
+  .hex { width: 58px; height: 64px; display: grid; place-items: center; font-family: 'Russo One', sans-serif; font-size: 1.5rem; color: #fff; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+  .core .hex { width: 70px; height: 78px; font-size: 1rem; }
+  .n-red .hex { background: var(--red); box-shadow: 0 0 30px var(--red); }
+  .n-blue .hex { background: var(--blue); }
+  .n-gold .hex { background: var(--gold); color: #000; }
+  .link { flex: 1; height: 4px; min-width: 14px; position: relative; overflow: hidden; }
+  .link.red { background: var(--red); box-shadow: 0 0 12px var(--red); }
+  .link.dash { background: repeating-linear-gradient(90deg, var(--blue2) 0 10px, transparent 10px 18px); }
+  .link.grey { background: repeating-linear-gradient(90deg, #555 0 10px, transparent 10px 18px); }
+  .link.red::after { content: ""; position: absolute; top: 0; left: -40%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, #fff, transparent); animation: flow 2.2s linear infinite; }
+  @keyframes flow { to { left: 110%; } }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 0.95rem; color: var(--muted); margin-bottom: 40px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 26px; height: 4px; display: inline-block; }
+  .rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .rule { padding: 24px 22px; }
+  .rule h3 { font-size: 1.2rem; margin-bottom: 8px; line-height: 1.2; }
+  .rule p { color: var(--muted); font-size: 1rem; }
+  .rule .ico { width: 44px; height: 44px; margin-bottom: 14px; color: var(--red2); }
+
+  /* arsenal */
+  .arsenal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .item { padding: 26px 22px; display: flex; gap: 16px; align-items: flex-start; }
+  .item .ico { flex: none; width: 52px; height: 52px; display: grid; place-items: center; background: #0c0d10; border: 1px solid #3a3f47; color: var(--gold); }
+  .item .ico svg { width: 28px; height: 28px; }
+  .item h3 { font-size: 1.15rem; margin-bottom: 6px; line-height: 1.2; }
+  .item p { color: var(--muted); font-size: 0.98rem; }
+
+  /* fighters */
+  .fighters { background: radial-gradient(900px 500px at 80% 30%, rgba(120,40,200,0.14), transparent 70%), var(--bg); }
+  .roster { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 22px 0; }
+  .roster div { padding: 16px 18px; background: #101114; border-left: 3px solid var(--red); }
+  .roster b { display: block; font-family: 'Russo One', sans-serif; font-weight: 400; text-transform: uppercase; font-size: 1.05rem; letter-spacing: 0.03em; }
+  .roster small { color: var(--muted); font-size: 0.95rem; }
+
+  /* modes */
+  .modes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .mode { padding: 28px 22px; }
+  .mode .when { font-family: 'Teko', sans-serif; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 1.1rem; color: var(--steel); }
+  .mode h3 { font-size: 1.4rem; margin: 4px 0 10px; line-height: 1.15; }
+  .mode p { color: var(--muted); font-size: 1rem; }
+  .mode.main { border-top: 4px solid var(--red); } .mode.main .when { color: var(--red2); }
+
+  /* code */
+  .code { background: linear-gradient(180deg, #0d0606, #140808 50%, #0d0606); border-top: 1px solid rgba(227,19,27,0.3); border-bottom: 1px solid rgba(227,19,27,0.3); }
+  .code-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .law { padding: 26px 24px; display: flex; gap: 18px; }
+  .law .n { font-family: 'Russo One', sans-serif; font-size: 2.2rem; color: var(--red); line-height: 1; }
+  .law h3 { font-size: 1.3rem; margin-bottom: 6px; }
+  .law p { color: var(--muted); }
+
+  /* roadmap */
+  .road { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; counter-reset: s; }
+  .stage { position: relative; padding: 0 10px; text-align: center; }
+  .stage::before { content: ""; position: absolute; top: 25px; left: 0; right: 0; height: 4px; background: #2a2e35; }
+  .stage:first-child::before { left: 50%; } .stage:last-child::before { right: 50%; }
+  .stage .dot { position: relative; width: 54px; height: 54px; margin: 0 auto 14px; display: grid; place-items: center; font-family: 'Russo One', sans-serif; font-size: 1.2rem; background: #1c1f24; border: 3px solid #3a3f47; clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+  .stage.now .dot { background: var(--red); border-color: var(--red2); }
+  .stage h3 { font-size: 1.05rem; line-height: 1.2; margin-bottom: 6px; }
+  .stage p { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+  .stage.now h3 { color: var(--red2); }
+  .youare { display: inline-block; font-family: 'Teko', sans-serif; font-size: 1.05rem; letter-spacing: 0.12em; color: #fff; background: var(--red); padding: 0 8px; margin-bottom: 6px; }
+
+  footer { padding: 50px 0 40px; border-top: 1px solid var(--line); background: #060607; }
+  .foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  .foot .logo { font-size: 2rem; }
+  .foot p { color: #8f959e; font-size: 0.95rem; max-width: 62ch; margin-top: 8px; }
+  .foot a { color: var(--muted); }
+  .foot nav { display: flex; flex-direction: column; gap: 6px; }
+  .foot nav a { text-decoration: none; font-family: 'Teko', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .foot nav a:hover { color: #fff; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 1000px) {
+    .rules, .modes { grid-template-columns: repeat(2, 1fr); }
+    .arsenal { grid-template-columns: repeat(2, 1fr); }
+    .road { grid-template-columns: repeat(3, 1fr); row-gap: 34px; }
+    .stage::before { display: none; }
+  }
+  @media (max-width: 860px) {
+    .menu-btn { display: block; }
+    .nav ul { display: none; position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; background: #08080a; border-bottom: 1px solid var(--line); padding: 10px 16px 16px; }
+    .nav ul.open { display: flex; }
+    .nav ul a { padding: 12px 8px; font-size: 1.5rem; }
+    .split, .split.rev { grid-template-columns: 1fr; gap: 30px; }
+    .split.rev .art { order: 0; }
+    .pillars, .code-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    .wrap { padding: 0 16px; }
+    section { padding: 64px 0; }
+    .hero { padding: 90px 0 50px; min-height: 88vh; }
+    .hero-bg { background-position: 22% bottom; transform: scale(1.35); }
+    .rules, .modes, .arsenal, .roster { grid-template-columns: 1fr; }
+    .road { grid-template-columns: 1fr 1fr; }
+    .chain { padding: 18px 8px; gap: 2px; }
+    .hex { width: 40px; height: 44px; font-size: 1.05rem; }
+    .core .hex { width: 46px; height: 52px; font-size: 0.68rem; }
+    .node { font-size: 0.92rem; }
+    .gate-box { padding: 28px 18px 24px; }
+    .dob { grid-template-columns: 1fr 1fr; }
+    .dob .m { grid-column: 1 / -1; }
+    .motto-big { font-size: 1.65rem; letter-spacing: 0.07em; }
+    .gate-box .motto { font-size: 1.2rem; letter-spacing: 0.1em; }
+    .gate .btn { font-size: 1.25rem; padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== AGE GATE ===================== -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-box plate">
+    <div class="logo">CAPT<b>R</b>AZE</div>
+    <div class="motto">DRIVE. CAPTURE. CONQUER.</div>
+    <div class="gate-badge" aria-hidden="true">18+</div>
+
+    <form class="gate-form" id="gate-form" novalidate>
+      <h2 id="gate-title">Adults only</h2>
+      <p>This site contains fictional combat and intense sci-fi imagery. Enter your date of birth to continue.</p>
+      <div class="dob">
+        <div class="m"><label for="dob-m">Month</label><select id="dob-m" required><option value="">Month</option></select></div>
+        <div><label for="dob-d">Day</label><select id="dob-d" required><option value="">Day</option></select></div>
+        <div><label for="dob-y">Year</label><select id="dob-y" required><option value="">Year</option></select></div>
+      </div>
+      <button class="btn btn-red" type="submit">Enter the arena</button>
+      <div class="gate-msg" id="gate-msg" role="alert" aria-live="assertive"></div>
+      <p class="gate-fine">Your date of birth is only checked on this device. It is never saved or sent anywhere.</p>
+    </form>
+
+    <div class="gate-denied" id="gate-denied" tabindex="-1">
+      <h2>Access denied</h2>
+      <p>You must be 18 or older to enter the CAPTRAZE website.</p>
+      <a class="btn btn-steel" href="https://patevan9.github.io/">Go to Lippy Robotics Labs</a>
+    </div>
+  </div>
+</div>
+<noscript><div style="position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;background:#08080a;color:#fff;padding:24px;text-align:center;font:18px Barlow,sans-serif">Please turn on JavaScript to confirm your age and enter the CAPTRAZE website.</div></noscript>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <nav class="wrap nav" aria-label="Main">
+    <a class="logo" href="#top">CAPT<b>R</b>AZE</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">☰</button>
+    <ul id="menu">
+      <li><a href="#game">The Game</a></li>
+      <li><a href="#conquest">Conquest</a></li>
+      <li><a href="#maps">Maps</a></li>
+      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="#fighters">Fighters</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg" role="img" aria-label="Concept art: armored combat vehicles race and fire across a battlefield toward glowing control pods"></div>
+  <div class="beams" aria-hidden="true"><div class="beam r"></div><div class="beam g"></div><div class="beam b"></div></div>
+  <span class="concept">Concept art</span>
+  <div class="wrap">
+    <div class="status">In planning &amp; design</div>
+    <h1>Capt<b>r</b>aze</h1>
+    <div class="motto-big" aria-label="Drive. Capture. Conquer."><span>Drive.</span> <span>Capture.</span> <span>Conquer.</span></div>
+    <p class="lead">A future multiplayer vehicle-combat and territory-control game, designed for mobile. Red versus Blue. Drive in hard, jump out, and hold the pod.</p>
+    <div class="btns">
+      <a class="btn btn-red" href="#conquest">See how you win</a>
+      <a class="btn btn-steel" href="#roadmap">Where we are</a>
+    </div>
+  </div>
+</section>
+<div class="hazard" aria-hidden="true"></div>
+
+<!-- THE GAME -->
+<section id="game">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">The game</span>
+      <h2>Not just racing. War for territory.</h2>
+      <p>Fast vehicles get you there. Your boots win the fight. CAPTRAZE blends arcade driving with on-foot combat around glowing control pods, and the team that holds the ground takes the match.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar plate p1 reveal"><span class="num">01</span><h3>Drive</h3><p>Tear across huge arenas in fast, stunt-ready combat vehicles. Ramps, jumps and high-speed routes, with handling built for fun, not realism.</p></div>
+      <div class="pillar plate p2 reveal"><span class="num">02</span><h3>Capture</h3><p>Bail out at the pod and hold the zone. No drive-by steals: you stay, you fight, and only then does the pod turn your color.</p></div>
+      <div class="pillar plate p3 reveal"><span class="num">03</span><h3>Conquer</h3><p>Every pod you own fires a sky-high beam in your team's color. Link your territory, push the front line and break the enemy.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONQUEST / ENERGY GRID -->
+<section class="conquest" id="conquest">
+  <div class="wrap">
+    <div class="split">
+      <div class="reveal">
+        <span class="tag">Team Conquest</span>
+        <h2 style="font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:16px">Control the grid</h2>
+        <p style="color:var(--muted);font-size:1.1rem">Red versus Blue. Control pods sit across the map, linked by an energy grid. Take them in order, and you carve a path straight to the enemy's core.</p>
+        <ul class="list">
+          <li><b>Hold to capture.</b> Exit your vehicle and stay inside the pod's zone until it converts.</li>
+          <li><b>Sky-high beams.</b> Owned pods blaze red or blue, visible from anywhere on the map.</li>
+          <li><b>Linked nodes.</b> You can only attack a pod that connects to ground you already hold. <span class="proposed">Proposed</span></li>
+          <li><b>Overdrive.</b> Link a full chain to the enemy core and its defenses drop for a final assault. <span class="proposed">Proposed</span></li>
+        </ul>
+      </div>
+      <figure class="art reveal">
+        <span class="concept">Concept art</span>
+        <img src="assets/energy-grid.webp" srcset="assets/energy-grid-800.webp 800w, assets/energy-grid.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" alt="Concept art: Red and Blue fighters battle across an energy grid linking control nodes A, B and C, each with a colored beam" width="1600" height="937" loading="lazy">
+        <figcaption>The energy grid: owned connections, the next node you can capture, and blocked links.</figcaption>
+      </figure>
+    </div>
+
+    <div class="chain plate reveal" role="img" aria-label="Example energy grid: Red Core links to node A, which Red owns. A links to node B, which Blue owns and Red can attack next. B links to node C, which is neutral and blocked. C links to the Blue Core.">
+      <div class="node core n-red"><div class="hex">CORE</div>Red</div>
+      <div class="link red"></div>
+      <div class="node n-red"><div class="hex">A</div>Red</div>
+      <div class="link red"></div>
+      <div class="node n-blue"><div class="hex">B</div>Blue</div>
+      <div class="link dash"></div>
+      <div class="node n-gold"><div class="hex">C</div>Neutral</div>
+      <div class="link grey"></div>
+      <div class="node core n-blue"><div class="hex">CORE</div>Blue</div>
+    </div>
+    <div class="legend reveal">
+      <span><i style="background:var(--red);box-shadow:0 0 8px var(--red)"></i>Owned connection</span>
+      <span><i style="background:repeating-linear-gradient(90deg,var(--blue2) 0 6px,transparent 6px 10px)"></i>Next capture target</span>
+      <span><i style="background:repeating-linear-gradient(90deg,#666 0 6px,transparent 6px 10px)"></i>Blocked</span>
+      <span style="color:#8f959e">Example layout only. Maps may branch.</span>
+    </div>
+
+    <div class="rules">
+      <div class="rule plate reveal"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><h3>No instant steals</h3><p>Capturing takes real time in the zone. Touching it or driving past does nothing.</p></div>
+      <div class="rule plate reveal"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M7 22h10M9 6l3-4 3 4"/></svg><h3>Beams don't lie</h3><p>Look up to read the battle. Beams also use emblems and shapes, not color alone.</p></div>
+      <div class="rule plate reveal"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg><h3>Defend or lose it</h3><p>The fight happens around the pod while one team captures and the other tries to stop them.</p></div>
+      <div class="rule plate reveal"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><h3>Push the front</h3><p>Linked pods create moving battle lines instead of random chaos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPS -->
+<section id="maps">
+  <div class="wrap split rev">
+    <figure class="art reveal">
+      <span class="concept">Map concept</span>
+      <img src="assets/crater-junction.webp" srcset="assets/crater-junction-800.webp 800w, assets/crater-junction.webp 1339w" sizes="(max-width: 860px) 100vw, 600px" alt="Concept map of Crater Junction: Red base and node A on the left, a central crater with neutral node B, Blue base and node C on the right, with three lanes and pickups marked" width="1339" height="784" loading="lazy">
+      <figcaption>Crater Junction: an early layout idea, not a final map.</figcaption>
+    </figure>
+    <div class="reveal">
+      <span class="tag">Map concept</span>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:16px">Crater Junction</h2>
+      <p style="color:var(--muted);font-size:1.1rem">Two fortified bases. One neutral crater in the middle. Three ways to get there, and each one changes the fight.</p>
+      <ul class="list">
+        <li><b>Lane 1: The Main Boulevard.</b> The fast, direct vehicle route through the center.</li>
+        <li><b>Lane 2: The Outer Overpass.</b> A high ridge with a jump ramp, and a heavy weapon and shield pickup for those who dare.</li>
+        <li><b>Lane 3: The Low Gully.</b> An on-foot flanking route under the action.</li>
+      </ul>
+      <p style="color:#8f959e;font-size:0.95rem">More map ideas, including Industry Forge, are in early exploration.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hazard" aria-hidden="true"></div>
+
+<!-- ARSENAL -->
+<section id="arsenal">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Arsenal &amp; stunts</span>
+      <h2>Gear up. Then go airborne.</h2>
+      <p>Weapons and supplies are scattered across every map. Walk over them to grab them. Where you place your fights depends on where the good stuff is.</p>
+    </div>
+    <div class="arsenal">
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h13l3-2h2v4h-2l-1 2H9l-2 6H4l1-6H3z"/></svg></span><div><h3>Combat weapons</h3><p>Primary fire plus a utility mode. Rarer, heavier weapons sit in riskier spots.</p></div></div>
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span><div><h3>Energy shields</h3><p>Some weapons carry a built-in shield. Limited power, recharge delay. No invincibility.</p></div></div>
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="14" r="7"/><path d="M15 8l3-3M18 2v3h3"/></svg></span><div><h3>Throwables</h3><p>Fictional energy bombs, EMP-style blasts and smoke cover.</p></div></div>
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M9 7V4h6v3M12 10v7M8.5 13.5h7"/></svg></span><div><h3>Health kits</h3><p>Patch yourself up on foot and get back in the fight.</p></div></div>
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></span><div><h3>Vehicle repair packs</h3><p>Keep your ride alive, separate from player healing.</p></div></div>
+      <div class="item plate reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3 7h-6zM12 9v8M7 22l5-5 5 5"/></svg></span><div><h3>Stunts <span class="proposed">Proposed</span></h3><p>Dodge-roll thrusters, jump jets, and high-speed ejections that land you fighting on foot.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FIGHTERS -->
+<section class="fighters" id="fighters">
+  <div class="wrap split">
+    <div class="reveal">
+      <span class="tag">Fighters</span>
+      <h2 style="font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:16px">Nobody here is friendly</h2>
+      <p style="color:var(--muted);font-size:1.1rem">Pick an intimidating avatar and fight for either team. Your look is yours. Every fighter plays by the same rules.</p>
+      <div class="roster">
+        <div><b>Human Raiders</b><small>Battle-worn mercenaries</small></div>
+        <div><b>Alien Hunters</b><small>Unfamiliar and lethal</small></div>
+        <div><b>The Infected</b><small>Eerie undead combatants</small></div>
+        <div><b>Cyborg Enforcers</b><small>Part flesh, part machine</small></div>
+      </div>
+      <p style="color:#8f959e;font-size:0.95rem">Avatar choice never changes speed, health, damage or capture time. Team color shows on armor accents and markers. Roster is a proposal; more families are being explored.</p>
+    </div>
+    <figure class="art reveal">
+      <span class="concept">Concept art</span>
+      <img src="assets/territory-warfare.webp" srcset="assets/territory-warfare-800.webp 800w, assets/territory-warfare.webp 1600w" sizes="(max-width: 860px) 100vw, 560px" alt="Concept art: raiders, aliens and infected fighters clash around red, blue and gold control pods" width="1600" height="800" loading="lazy">
+      <figcaption>Territory warfare: on-foot pod defense and combat.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- MODES -->
+<section id="modes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Ways to play</span>
+      <h2>Pick your battle</h2>
+    </div>
+    <div class="modes">
+      <div class="mode plate main reveal"><span class="when">Main mode</span><h3>Team Conquest</h3><p>Red versus Blue. Capture and hold the pods, link the grid, take the win.</p></div>
+      <div class="mode plate reveal"><span class="when">Second mode</span><h3>Obstacle Racing</h3><p>Wild ramps, brutal jumps and hazards, all the way to the finish line.</p></div>
+      <div class="mode plate reveal"><span class="when">Planned</span><h3>Offline vs. Bots</h3><p>Fight computer-controlled opponents any time, even when few people are online.</p></div>
+      <div class="mode plate reveal"><span class="when">Long-term vision</span><h3>Community Map Hub</h3><p>Build maps on your phone or PC. Approved maps get shared with everyone.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CODE -->
+<section class="code" id="code">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">The CAPTRAZE code</span>
+      <h2>Fight hard. Play fair.</h2>
+    </div>
+    <div class="code-grid">
+      <div class="law plate reveal"><span class="n">01</span><div><h3>Zero pay-to-win</h3><p>Money never buys power. Any future purchases are cosmetic: skins, outfits, beam effects and supporter badges.</p></div></div>
+      <div class="law plate reveal"><span class="n">02</span><div><h3>Skill decides</h3><p>Every avatar plays the same. Stronger pickups are earned on the map, not in a store.</p></div></div>
+      <div class="law plate reveal"><span class="n">03</span><div><h3>Stable before big</h3><p>A small, solid, fun game first. Bigger matches and features only when they're ready.</p></div></div>
+      <div class="law plate reveal"><span class="n">04</span><div><h3>Built for adults</h3><p>An 18+ community, with community maps checked and approved before anyone plays them.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag">Roadmap</span>
+      <h2>Where we are</h2>
+      <p>CAPTRAZE is in the planning and design stage. Nothing is in development yet, and there are no release dates. Each stage has to prove itself before the next one starts.</p>
+    </div>
+    <div class="road reveal">
+      <div class="stage now"><div class="dot">0</div><span class="youare">We are here</span><h3>Concept &amp; design</h3><p>Rules, maps and ideas on paper.</p></div>
+      <div class="stage"><div class="dot">1</div><h3>Tiny prototype</h3><p>One arena, one vehicle, one pod.</p></div>
+      <div class="stage"><div class="dot">2</div><h3>Offline slice</h3><p>A few maps, racing and bots.</p></div>
+      <div class="stage"><div class="dot">3</div><h3>Multiplayer tests</h3><p>Small private online matches.</p></div>
+      <div class="stage"><div class="dot">4</div><h3>Possible launch</h3><p>Only when it's stable and fair.</p></div>
+      <div class="stage"><div class="dot">5</div><h3>Creator tools</h3><p>Map builders and the Map Hub.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="logo">CAPT<b>R</b>AZE</div>
+      <p>A future game concept from <a href="https://patevan9.github.io/">Lippy Robotics Labs</a>. CAPTRAZE is a working title. All artwork is concept art, not gameplay, and every feature shown is subject to change. Nothing on this site is a release commitment.</p>
+      <p>Copyright © 2026 Patrick Evan Lippy. All rights reserved.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="#game">The Game</a><a href="#conquest">Conquest</a><a href="#maps">Maps</a><a href="#arsenal">Arsenal</a><a href="#fighters">Fighters</a><a href="#roadmap">Roadmap</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'captraze_age_ok', DAYS = 30;
+  function store(fn) { try { return fn(window.localStorage); } catch (e) { return null; } }
+
+  // Already verified on this device recently?
+  var ok = store(function (s) { var t = +s.getItem(KEY); return t && (Date.now() - t) < DAYS * 864e5; });
+  if (ok) unlock(false);
+
+  // Fill date selects
+  var mSel = document.getElementById('dob-m'), dSel = document.getElementById('dob-d'), ySel = document.getElementById('dob-y');
+  ['January','February','March','April','May','June','July','August','September','October','November','December'].forEach(function (n, i) { mSel.add(new Option(n, i + 1)); });
+  for (var d = 1; d <= 31; d++) dSel.add(new Option(d, d));
+  var thisYear = new Date().getFullYear();
+  for (var y = thisYear; y >= thisYear - 110; y--) ySel.add(new Option(y, y));
+
+  var gate = document.getElementById('gate'), msg = document.getElementById('gate-msg');
+  if (!ok) setTimeout(function () { mSel.focus(); }, 50);
+
+  document.getElementById('gate-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var m = +mSel.value, d = +dSel.value, y = +ySel.value;
+    msg.className = 'gate-msg err';
+    if (!m || !d || !y) { msg.textContent = 'Please choose your month, day and year of birth.'; return; }
+    var dob = new Date(y, m - 1, d);
+    if (dob.getMonth() !== m - 1 || dob.getDate() !== d) { msg.textContent = 'That date does not exist. Please check the day.'; return; }
+    var now = new Date();
+    var age = now.getFullYear() - y - ((now.getMonth() < m - 1 || (now.getMonth() === m - 1 && now.getDate() < d)) ? 1 : 0);
+    if (dob > now) { msg.textContent = 'That date is in the future. Please check it.'; return; }
+    if (age >= 18) {
+      store(function (s) { s.setItem(KEY, String(Date.now())); });
+      unlock(true);
+    } else {
+      gate.classList.add('denied');
+      document.getElementById('gate-denied').focus();
+    }
+  });
+
+  function unlock(focusMain) {
+    root.classList.remove('gate-locked');
+    var g = document.getElementById('gate'); if (g) g.setAttribute('aria-hidden', 'true');
+    if (focusMain) { var h = document.querySelector('.hero h1'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } }
+  }
+
+  // Menu
+  var btn = document.querySelector('.menu-btn'), menu = document.getElementById('menu');
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); btn.textContent = open ? '✕' : '☰';
+  });
+  menu.addEventListener('click', function (e) { if (e.target.tagName === 'A' && menu.classList.contains('open')) btn.click(); });
+
+  // Reveal
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  } else els.forEach(function (el) { el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>
