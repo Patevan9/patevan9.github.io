@@ -178,6 +178,7 @@
   .worlds a.w-ai:hover   { border-color: rgba(170,130,255,0.6); }
   .worlds a.w-bf:hover   { border-color: rgba(255,200,140,0.6); }
   .worlds a.w-gg:hover   { border-color: rgba(61,220,132,0.6); }
+  .worlds a.w-rp:hover   { border-color: rgba(179,36,44,0.6); }
   .worlds a.w-cap:hover  { border-color: rgba(227,19,27,0.7); }
 
   /* =================== ROLLABOP =================== */
@@ -454,6 +455,24 @@
     .gg-btns .btn { width: 100%; justify-content: center; }
   }
 
+  /* =================== RECIPEARL =================== */
+  .rp { padding: 110px 0; background: radial-gradient(circle at 85% 30%, rgba(185,120,58,0.22), transparent 55%), #fef5e4; color: #2b1d14; border-top: 1px solid #ecd6b2; }
+  .rp-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+  .rp .kicker { color: #3f7d3a; }
+  .rp h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: clamp(3rem, 6.5vw, 4.6rem); color: #b3242c; line-height: 1; margin-bottom: 14px; }
+  .rp-tagline { font-size: clamp(1.3rem, 2.4vw, 1.6rem); font-weight: 600; margin-bottom: 18px; }
+  .rp .status { color: #3f7d3a; margin-bottom: 22px; background: rgba(255,255,255,0.5); }
+  .rp-body { color: #5e4a3a; font-size: 1.1rem; max-width: 52ch; margin-bottom: 24px; }
+  .rp-feats { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .rp-feats li { padding: 14px 16px; border-radius: 14px; background: #fffaf1; border: 1px solid #ecd6b2; font-size: 1rem; color: #5e4a3a; }
+  .rp-feats b { display: block; color: #2b1d14; font-size: 1.05rem; }
+  .btn-rp { background: #b3242c; color: #fff; box-shadow: 0 8px 24px rgba(179,36,44,0.25); }
+  .btn-rp:hover { background: #8e1a21; }
+  .btn-rpdim { background: #fffaf1; border-color: #ecd6b2; color: #2b1d14; }
+  .rp-art { justify-self: center; width: min(360px, 100%); filter: drop-shadow(0 24px 40px rgba(120,60,20,0.25)); }
+  @media (max-width: 900px) { .rp-grid { grid-template-columns: 1fr; gap: 32px; } .rp-art { order: -1; width: min(240px, 64%); } }
+  @media (max-width: 640px) { .rp { padding: 64px 0; } .rp-feats { grid-template-columns: 1fr; } .rp .btns .btn { width: 100%; justify-content: center; } }
+
   /* =================== CAPTRAZE CARD =================== */
   .cap { padding: 96px 0; background: #08080a; border-top: 1px solid rgba(227,19,27,0.25); }
   .cap-card { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; overflow: hidden; text-decoration: none; color: #f2f2f2;
@@ -684,6 +703,7 @@
     <ul id="menu">
       <li><a href="#rollabop">Rollabop</a></li>
       <li><a href="#glucose-glance">Glucose Glance</a></li>
+      <li><a href="#recipearl">Recipearl</a></li>
       <li><a href="#tolliver">Tolliver</a></li>
       <li><a href="#tolliver-ai">Tolliver AI</a></li>
       <li><a href="#breatheframe">BreatheFrame</a></li>
@@ -718,6 +738,7 @@
       <nav class="worlds reveal d3" aria-label="Our projects">
         <a class="w-roll" href="#rollabop"><span class="w-ico"><img src="assets/rollabop/galaxy-ball.webp" alt="" width="36" height="36"></span>Rollabop</a>
         <a class="w-gg" href="#glucose-glance"><span class="w-ico"><img src="assets/glucose/glucose-icon.webp" alt="" width="36" height="36"></span>Glucose Glance</a>
+        <a class="w-rp" href="#recipearl"><span class="w-ico"><img src="recipearl/recipearl-icon.webp" alt="" width="36" height="36"></span>Recipearl</a>
         <a class="w-tol" href="#tolliver"><span class="w-ico" style="background:#0d1a2b"><svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true"><circle cx="12" cy="18" r="5" fill="#2a74d6"/><circle cx="12" cy="18" r="2.2" fill="#06101d"/><circle cx="24" cy="18" r="5" fill="#2a74d6"/><circle cx="24" cy="18" r="2.2" fill="#06101d"/></svg></span>Tolliver</a>
         <a class="w-ai" href="#tolliver-ai"><span class="w-ico" style="background:#16112c"><svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true"><g stroke="#8f7bff" stroke-width="1.4"><path d="M10 12l8 6 8-7M18 18l-6 8M18 18l7 7"/></g><g fill="#5ef2e0"><circle cx="10" cy="12" r="2.4"/><circle cx="26" cy="11" r="2.4"/><circle cx="18" cy="18" r="3"/><circle cx="12" cy="26" r="2.4"/><circle cx="25" cy="25" r="2.4"/></g></svg></span>Tolliver AI</a>
         <a class="w-bf" href="#breatheframe"><span class="w-ico" style="background:#2a1f16"><svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true"><rect x="9" y="10" width="18" height="16" rx="2" fill="none" stroke="#ffcf8a" stroke-width="1.8"/><path d="M11 23l5-5 4 4 2-2 4 3" fill="none" stroke="#ffcf8a" stroke-width="1.6" stroke-linejoin="round"/><circle cx="22" cy="15" r="1.8" fill="#ffcf8a"/></svg></span>BreatheFrame</a>
@@ -848,6 +869,30 @@
       <p class="gg-pcap">Preview images, drawn from the app's real design</p>
       <a class="btn btn-gg gg-buy" href="glucose-glance/">Learn more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
     </div>
+  </div>
+</section>
+
+<!-- ======================= RECIPEARL ======================= -->
+<section class="rp" id="recipearl" aria-labelledby="rp-title">
+  <div class="wrap rp-grid">
+    <div>
+      <span class="kicker reveal">Android recipe app</span>
+      <h2 id="rp-title" class="reveal d1">Recipearl</h2>
+      <p class="rp-tagline reveal d1">All your favorite recipes, safe and together.</p>
+      <span class="status reveal d1">Coming soon to Google Play</span>
+      <p class="rp-body reveal d2">Save recipes from your favorite websites, keep family favorites, and cook from a clear, easy-to-read page. Your collection stays on your phone, with no account, no ads and no tracking.</p>
+      <ul class="rp-feats reveal d2">
+        <li><b>Save from websites</b>Share a recipe link, and Recipearl fills in the details.</li>
+        <li><b>Duplicate protection</b>Warns you before saving a recipe you already have.</li>
+        <li><b>Shopping list</b>Add ingredients and check them off at the store.</li>
+        <li><b>Never lose a recipe</b>Recently Deleted, Undo Last Edit, and Backup &amp; Restore.</li>
+      </ul>
+      <div class="btns reveal d3">
+        <a class="btn btn-rp" href="recipearl/">Learn more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        <a class="btn btn-rpdim" href="recipearl/privacy.html">Privacy policy</a>
+      </div>
+    </div>
+    <img class="rp-art reveal d1" src="recipearl/recipearl-icon.webp" alt="Recipearl app icon: a red recipe book with a chef's hat, a wooden spoon and fresh basil" width="384" height="384" loading="lazy">
   </div>
 </section>
 
@@ -1153,6 +1198,7 @@
           <li><a href="https://lippyroboticslabs.com/rollabop-website/"><span class="ico"><img src="assets/rollabop/galaxy-ball.webp" alt="" width="38" height="38"></span><span><b>Rollabop</b><small>Game website</small></span></a></li>
           <li><a href="https://play.google.com/store/apps/details?id=com.lippyrobotics.rollabop"><span class="ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3.5v17a1 1 0 001.5.86l14-8.5a1 1 0 000-1.72l-14-8.5A1 1 0 005 3.5z"/></svg></span><span><b>Get Rollabop</b><small>On Google Play</small></span></a></li>
           <li><a href="glucose-privacy.html"><span class="ico"><img src="assets/glucose/glucose-icon.webp" alt="" width="38" height="38"></span><span><b>Glucose Glance</b><small>Privacy policy</small></span></a></li>
+          <li><a href="recipearl/"><span class="ico"><img src="recipearl/recipearl-icon.webp" alt="" width="38" height="38"></span><span><b>Recipearl</b><small>Recipe app website</small></span></a></li>
           <li><a href="https://github.com/Patevan9/BreatheFrame"><span class="ico" style="background:rgba(255,207,138,0.12);color:#ffcf8a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M5 17l5-5 4 4 2-2 3 3"/></svg></span><span><b>BreatheFrame</b><small>On GitHub</small></span></a></li>
           <li><a href="https://lippyroboticslabs.com/captraze/"><span class="ico" style="background:#16080a;color:#e3131b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><polygon points="12,3 20,7.5 20,16.5 12,21 4,16.5 4,7.5"/><path d="M9.5 16V8h3a2.2 2.2 0 010 4.4h-3M12.5 12.4L15 16"/></svg></span><span><b>CAPTRAZE</b><small>Concept site · 18+</small></span></a></li>
         </ul>
@@ -1180,6 +1226,7 @@
       <nav aria-label="Footer">
         <a href="#rollabop">Rollabop</a>
         <a href="#glucose-glance">Glucose Glance</a>
+        <a href="#recipearl">Recipearl</a>
         <a href="#tolliver">Tolliver</a>
         <a href="#tolliver-ai">Tolliver AI</a>
         <a href="#breatheframe">BreatheFrame</a>
