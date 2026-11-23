@@ -87,7 +87,7 @@
 <header>
   <p class="brand">Lippy Robotics Labs</p>
   <h1>Glucose Glance Privacy Policy</h1>
-  <p class="updated">Last updated: November 22, 2026</p>
+  <p class="updated">Last updated: November 23, 2026</p>
 </header>
 
 <p>This Privacy Policy explains how the <strong>Glucose Glance</strong> app for Wear OS and the <strong>Glucose Glance Watch Face</strong> (together, "the app") handle your information. The app is made by Patrick Evan Lippy, Lippy Robotics Labs ("we", "us").</p>
@@ -98,7 +98,7 @@
     <li><strong>Lippy Robotics Labs has no servers and never receives your glucose readings or your login.</strong> We have no user accounts, no ads, no analytics and no tracking. The app does send your login and requests to the glucose service you choose, so it can read your readings.</li>
     <li>Your login and your glucose readings are stored <strong>only on your watch</strong>.</li>
     <li>Your password or access token is <strong>encrypted</strong> on the watch.</li>
-    <li>The app connects only to the glucose service <strong>you choose</strong> (Dexcom Share or your Nightscout site), over secure HTTPS, to read your own glucose numbers.</li>
+    <li>The app connects only to the glucose service <strong>you choose</strong> (Dexcom Share, LibreLinkUp or your Nightscout site), over secure HTTPS, to read your own glucose numbers.</li>
     <li>Glucose Glance is <strong>free</strong>. If you choose to make an optional <strong>donation</strong>, it is handled by <strong>Stripe</strong>. We receive your email address and donation details, but <strong>never your card number</strong>. Donations are never linked to your glucose readings.</li>
     <li>The <strong>Glucose Glance Installer</strong> on your phone keeps a few setup details <strong>only on your phone</strong> and sends nothing to us.</li>
   </ul>
@@ -117,6 +117,9 @@
     <tr><td data-label="Information">Dexcom password</td><td data-label="Why the app needs it">To sign in to Dexcom Share</td><td data-label="How it is stored"><strong>Encrypted</strong> on the watch</td><td data-label="Where it is sent">Only to Dexcom, to sign in</td></tr>
     <tr><td data-label="Information">Dexcom session ID (a temporary sign-in code Dexcom gives the app)</td><td data-label="Why the app needs it">So the app does not have to sign in for every reading</td><td data-label="How it is stored">Private app storage on the watch</td><td data-label="Where it is sent">Only to Dexcom, to read your readings</td></tr>
     <tr><td data-label="Information">Dexcom region (United States, outside the United States, or Japan)</td><td data-label="Why the app needs it">To use the right Dexcom server</td><td data-label="How it is stored">Private app storage on the watch</td><td data-label="Where it is sent">Not sent</td></tr>
+    <tr><td data-label="Information">LibreLinkUp email</td><td data-label="Why the app needs it">To sign in to LibreLinkUp</td><td data-label="How it is stored">Private app storage on the watch</td><td data-label="Where it is sent">Only to Abbott's LibreView service, to sign in</td></tr>
+    <tr><td data-label="Information">LibreLinkUp password</td><td data-label="Why the app needs it">To sign in to LibreLinkUp</td><td data-label="How it is stored"><strong>Encrypted</strong> on the watch</td><td data-label="Where it is sent">Only to Abbott's LibreView service, to sign in</td></tr>
+    <tr><td data-label="Information">LibreLinkUp sign-in details (a temporary sign-in token and when it expires, the server region, a scrambled account ID and the ID of the person sharing with you)</td><td data-label="Why the app needs it">So the app does not have to sign in for every reading</td><td data-label="How it is stored">Private app storage on the watch</td><td data-label="Where it is sent">Only to Abbott's LibreView service, to read your readings</td></tr>
     <tr><td data-label="Information">Nightscout site address</td><td data-label="Why the app needs it">To know which Nightscout site to read</td><td data-label="How it is stored">Private app storage on the watch</td><td data-label="Where it is sent">The app connects to this address</td></tr>
     <tr><td data-label="Information">Nightscout access token or API secret (if your site needs one)</td><td data-label="Why the app needs it">To be allowed to read your Nightscout site</td><td data-label="How it is stored"><strong>Encrypted</strong> on the watch</td><td data-label="Where it is sent">Only to your Nightscout site</td></tr>
     <tr><td data-label="Information">Glucose readings: the number, the time and the trend arrow, for about the last 3 hours</td><td data-label="Why the app needs it">To show your glucose, the change and the 3-hour chart</td><td data-label="How it is stored">Private app storage on the watch. Older readings are replaced as new ones arrive.</td><td data-label="Where it is sent">Never sent to Lippy Robotics Labs. Shared only on your watch with watch faces where you add the Glucose Glance complication.</td></tr>
@@ -136,6 +139,18 @@
   <li>Your glucose data is held by Dexcom under <a href="https://www.dexcom.com/en-us/legal/privacy-policy" rel="noopener">Dexcom's privacy policy</a>. We do not receive it.</li>
 </ul>
 <p>Glucose Glance is not made by, affiliated with or endorsed by Dexcom, Inc.</p>
+
+<h2 id="libre">FreeStyle Libre (LibreLinkUp), beta</h2>
+<p>If you choose FreeStyle Libre, the app reads your glucose through LibreLinkUp, Abbott's app for sharing Libre readings with followers. You sign in with a LibreLinkUp (follower) account that your Libre app shares with, not with your Libre app login.</p>
+<ul>
+  <li>The app sends your LibreLinkUp email and password to Abbott's LibreView server (api.libreview.io, or the regional server it directs the app to, such as api-us.libreview.io) to sign in. The server returns a temporary sign-in token.</li>
+  <li>The app then uses the token to ask for the readings shared with that account, about every 5 minutes, and keeps the ones from the last 3 hours.</li>
+  <li>As LibreLinkUp requires, the app also sends a scrambled (SHA-256) form of your LibreLinkUp account ID with its requests.</li>
+  <li>If more than one person shares with the same LibreLinkUp account, the app shows the first one.</li>
+  <li>Your glucose data is held by Abbott under Abbott's privacy policy. We do not receive it.</li>
+  <li>Libre support is in beta and may not work in every country.</li>
+</ul>
+<p>Glucose Glance is not made by, affiliated with or endorsed by Abbott. FreeStyle Libre and LibreLinkUp are trademarks of Abbott.</p>
 
 <h2 id="nightscout">Nightscout</h2>
 <p>If you choose Nightscout, the app reads your glucose from the <strong>Nightscout site whose address you enter</strong>. Nightscout is open-source software that you, or someone you trust, runs.</p>
@@ -157,8 +172,8 @@
 
 <h2 id="security">Encryption and security</h2>
 <ul>
-  <li><strong>On your watch:</strong> your Dexcom password and your Nightscout access token or API secret are encrypted with AES-256 (GCM), using a key kept in your watch's secure Android Keystore. They are never stored as plain text.</li>
-  <li><strong>Other saved information</strong> (your Dexcom username or Nightscout site address, the temporary Dexcom session ID, your recent readings and your settings) is kept in the app's private storage. Android keeps this storage separate from other apps.</li>
+  <li><strong>On your watch:</strong> your Dexcom password, your LibreLinkUp password and your Nightscout access token or API secret are encrypted with AES-256 (GCM), using a key kept in your watch's secure Android Keystore. They are never stored as plain text.</li>
+  <li><strong>Other saved information</strong> (your Dexcom username, LibreLinkUp email or Nightscout site address, the temporary Dexcom session ID and LibreLinkUp sign-in details, your recent readings and your settings) is kept in the app's private storage. Android keeps this storage separate from other apps.</li>
   <li><strong>Over the internet:</strong> the app connects only over encrypted <strong>HTTPS</strong>. Android blocks this app from using unencrypted connections.</li>
   <li><strong>Backups:</strong> the app turns off Android's cloud backup, so its data is not copied to Google Drive by the app.</li>
 </ul>
@@ -166,7 +181,7 @@
 <h2 id="third-parties">Third parties and other connections</h2>
 <p>We never receive your glucose readings or your glucose service login, and we do not sell or rent any of your information. The app sends information only in the ways listed below, each because you chose to use that feature. The app contains no advertising, analytics or crash-reporting software. These are the only outside parties involved:</p>
 <ul>
-  <li><strong>The glucose service you choose:</strong> Dexcom (Dexcom Share) or your own Nightscout site, as described above.</li>
+  <li><strong>The glucose service you choose:</strong> Dexcom (Dexcom Share), Abbott (LibreLinkUp) or your own Nightscout site, as described above.</li>
   <li><strong>Watch faces you choose:</strong> Glucose Glance can show your glucose on a watch face as a "complication". When you add it to a watch face, including faces made by other developers, that watch face receives your current glucose number, trend and the 3-hour chart so it can display them. Only add it to watch faces you trust.</li>
   <li><strong>Read aloud:</strong> when you tap the number to hear it, the app uses your watch's text-to-speech service to speak your glucose. That service is part of your watch's software, and its own privacy terms apply.</li>
   <li><strong>GitHub:</strong> our website, including the installer download, is hosted by GitHub Pages (GitHub, Inc.). Like any website host, GitHub handles basic connection details, such as your IP address, to deliver pages and files, under the <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub Privacy Statement</a>.</li>
@@ -205,7 +220,7 @@
   <li>Readings are kept for about 3 hours and replaced as new ones arrive.</li>
   <li>Changing your login in the app replaces your old login and clears the saved readings and session ID.</li>
   <li>To delete everything the app stored, <strong>uninstall the app</strong>, or clear its storage in your watch's settings (<em>Settings &rarr; Apps &rarr; Glucose Glance &rarr; Storage &rarr; Clear data</em>; the exact menu names can vary by watch).</li>
-  <li>We never receive your glucose readings or login, so there is nothing of that kind for us to delete. To delete data held by Dexcom or your Nightscout site, contact Dexcom or whoever runs your site.</li>
+  <li>We never receive your glucose readings or login, so there is nothing of that kind for us to delete. To delete data held by Dexcom, Abbott or your Nightscout site, contact Dexcom, Abbott or whoever runs your site.</li>
   <li>If you donate, we keep your donation information for as long as we need it to help you and to keep the records the law requires (for tax records, this is usually several years). To ask what we hold about you, or to ask us to delete anything we are not required to keep, email us.</li>
 </ul>
 
