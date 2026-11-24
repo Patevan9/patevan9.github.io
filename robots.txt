@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://lippyroboticslabs.com/sitemap.xml
+Sitemap: https://lippyroboticslabs.com/recipearl/sitemap.xml
