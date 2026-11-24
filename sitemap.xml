@@ -2,39 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lippyroboticslabs.com/</loc>
-    <lastmod>2026-10-17</lastmod>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
     <loc>https://lippyroboticslabs.com/clearbg/</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
     <loc>https://lippyroboticslabs.com/glucose-privacy.html</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/rollabop-website/</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/rollabop-website/how-to-play/</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/rollabop-website/about/</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/rollabop-website/support/</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/rollabop-website/privacy/</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
     <loc>https://lippyroboticslabs.com/recipearl/</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/recipearl/privacy.html</loc>
-  </url>
-  <url>
-    <loc>https://lippyroboticslabs.com/recipearl/terms.html</loc>
+    <lastmod>2026-11-24</lastmod>
   </url>
   <url>
     <loc>https://lippyroboticslabs.com/recipearl/support.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/recipearl/privacy.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/recipearl/terms.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/rollabop-website/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/rollabop-website/how-to-play/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/rollabop-website/about/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/rollabop-website/support/</loc>
+    <lastmod>2026-11-19</lastmod>
+  </url>
+  <url>
+    <loc>https://lippyroboticslabs.com/rollabop-website/privacy/</loc>
+    <lastmod>2026-11-19</lastmod>
   </url>
 </urlset>
