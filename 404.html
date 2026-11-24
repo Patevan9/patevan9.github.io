@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found · Lippy Robotics Labs</title>
+<meta name="robots" content="noindex">
+<script>
+  // Old ClearBG Watch addresses (before the rename) forward to the new page.
+  // An old installer download link goes to the download section.
+  (function () {
+    var p = location.pathname.toLowerCase();
+    if (p.indexOf('/glucose-glance') === 0) {
+      location.replace(p.slice(-4) === '.apk' ? '/clearbg/#download' : '/clearbg/' + location.hash);
+    }
+  })();
+</script>
+<style>body{margin:0;background:#0d0d12;color:#f4f4f8;font:20px/1.6 system-ui,sans-serif}main{max-width:640px;margin:0 auto;padding:64px 20px}a{color:#ff9d4d}</style>
+</head>
+<body><main>
+<h1>Page not found</h1>
+<p>Sorry, this page does not exist.</p>
+<p><a href="/">Go to the Lippy Robotics Labs homepage</a></p>
+</main></body>
+</html>
